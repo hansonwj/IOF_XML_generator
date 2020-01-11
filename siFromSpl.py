@@ -52,7 +52,7 @@ def si_from_spl( splFile, startFile ):
 
         # If the end char is \x44 then this is the long name. This is usually what the xml also has
         # Need to check on \x45 though, which ends the short name
-        if courseLoc + 3 + courseLen < len(data) and data[courseLoc + 3 + courseLen] == 68:
+        if courseLoc + 3 + courseLen < len(data) and data[courseLoc + 3 + courseLen] == 68 and courseLen < 50:
             courseCheckLoc = courseLoc + 3 + courseLen
             courseCheckLen = int.from_bytes( data[courseCheckLoc+1:courseCheckLoc+3], byteorder='little' )
             isRealCourse = check_is_course( courseCheckLoc, courseCheckLen, data )
@@ -105,6 +105,7 @@ def si_from_spl( splFile, startFile ):
         if data[endLoc-5] == 132 or data[endLoc-5] == 129 or data[endLoc-5] == 128:
             #FIXME
             #check on these data transforms being the right length
+            print (data[endLoc-5:endLoc])
             si_no = int.from_bytes(data[endLoc-4:endLoc],byteorder='little')
             #print(si_no)
             
@@ -179,7 +180,7 @@ def si_from_spl( splFile, startFile ):
 
 
 if __name__=='__main__':
-    splFile = sys.argv[1]
-    startFile = sys.argv[2]
+    splFile = r"C:/Users/Jake/Downloads/Omax1 2019 Hataitai.spl" #sys.argv[1] 
+    startFile = r"C:/Users/Jake/Downloads/Omax1 2019 Hataitai.txt"#sys.argv[2]
     startList = si_from_spl( splFile, startFile )
     print( startList )
